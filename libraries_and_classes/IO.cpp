@@ -7,3 +7,12 @@
 
 #include "IO.h"
 
+char IO::checkForCommand() {
+	String command;
+	// check each interface in priority order
+	// if nothing has data, return 'n'
+	if(!parseCommand(command)) {
+		return 'b';
+	}
+	return 'a';
+}

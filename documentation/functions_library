@@ -8,13 +8,29 @@ Format: value-command-parameter
 		'n' - execute command now (instantaneous read)
 		'p' - execute command periodically
 	Parameter (only applicable to 'p' command):
-		"#unit" - time delay in units (5s, 10m, etc.)
-			'l' - milliseconds
-			's' - seconds
-			'm' - minutes
-			'h' - hours
+		"#" - time delay in ms
 			
 			
 Arduino response:
 	understood command: print out requested value
 	misunderstood command: "invalid command, please try again"
+	
+
+	
+Natural Language Functions ("natlang" - "v-c-p command"):
+	"temp" - "t-n"
+	"temperature" - "t-n"
+	"co" - "c-n"
+	"loc" - "l-n"
+	"location" - "l-n"
+	*** appending "every #unit" adds a "-p-#" to the v-c-p command ***
+	example: "temp every 5m" - "t-p-300000" (print temp every 5 minutes)
+	example: "location every 2h" - "l-p-7200000" (print location every 2 hours)
+	understood units:
+		'l', "milli", "milliseconds"
+		's', "sec", "seconds"
+		'm', "min", "minutes"
+		'h', "hr", "hours"
+		'd', "dy", "days"
+		'w', "wk", "weeks"
+		MAX ~7.1 WEEKS (32 bit unsigned long rollover)
