@@ -1,0 +1,20 @@
+Textual I/O
+Format: value-command-parameter
+	Values:
+		't' - current temperature in °F/°C ("The current temperature is 50°F / 10°C")
+		'c' - current carbon monoxide concentration ("The current CO concentration is 15ppm")
+		'l' - Google Maps link ("Your car is here: maps.google.com/maps?q=LAT+LONG")
+	Commands:
+		'n' - execute command now (instantaneous read)
+		'p' - execute command periodically
+	Parameter (only applicable to 'p' command):
+		"#unit" - time delay in units (5s, 10m, etc.)
+			'l' - milliseconds
+			's' - seconds
+			'm' - minutes
+			'h' - hours
+			
+			
+Arduino response:
+	understood command: print out requested value
+	misunderstood command: "invalid command, please try again"
