@@ -5,6 +5,8 @@
  *      Author: piscitellon
  */
 
+#include <Arduino.h>
+
 #ifndef LIBRARIES_AND_CLASSES_IO_H_
 #define LIBRARIES_AND_CLASSES_IO_H_
 
