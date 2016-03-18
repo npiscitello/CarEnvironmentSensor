@@ -15,6 +15,36 @@
  */
 
 #include <Arduino.h>
+#include "libraries_and_classes/Functions.h"
+#include "libraries_and_classes/IO.h"
+#include "libraries_and_classes/TaskScheduler.h"
+
+	// setup objects
+Functions functions;
+IO inout;
 
 void setup(){}
-void loop(){}
+
+void loop(){
+		// if there's a command available...
+	char available = inout.checkForCommand();
+	if(available == 'a') {
+		switch(inout.getValue()) {
+		case 't':
+			break;
+		case 'c':
+			break;
+		case 'l':
+			break;
+		default:
+			// send a bad parse error, but this should never be an invalid value...
+			break;
+		}
+			// if a periodic task is called for
+		if(inout.getPeriodic()) {
+			// set up periodic action based on inout.getInterval
+		}
+	} else if(available == 'b') {
+		// send a bad parse warning
+	}
+}
