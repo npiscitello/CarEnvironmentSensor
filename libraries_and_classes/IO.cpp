@@ -8,16 +8,19 @@
 #include "IO.h"
 
 	// check for and loads an available command ('a' on available, 'b' on bad parse, 'n' on no command)
-char IO::checkForCommand() {
+char IO::getCommand() {
 		// interfaces are checked; order determines priority
-		// the recieving interface is recorded for the response
-	if(checkSerial()) {
+		// the receiving interface is recorded for the response
+	if(getInternal()) {
+		// checkInternal() sets interface
+	}
+	if(getSerial()) {
 		interface = 's';
 	}
-	else if(checkGSM()) {
+	else if(getGSM()) {
 		interface = 'g';
 	}
-	else if(checkBT()) {
+	else if(getBT()) {
 		interface = 'b';
 	}
 		// if nothing has data, return 'n'
@@ -32,45 +35,43 @@ char IO::checkForCommand() {
 }
 
 	// send a response to the last receiving interface
-void IO::sendResponse(bool parsed) {
-	if(parsed) {
-			// build the message based on the request
-		switch(value) {
-		case 't':
-			break;
-		case 'c':
-			break;
-		case 'l':
-			break;
-		}
-			// send the message to the appropriate interface
-		switch(interface) {
-		case 's':
-			break;
-		case 'g':
-			break;
-		case 'b':
-			break;
-		}
-	} else {
-		// send a bad parse message
+void IO::sendResponse(String response) {
+		// send the message to the appropriate interface (never internal)
+	switch(interface) {
+	case 's':
+		break;
+	case 'g':
+		break;
+	case 'b':
+		break;
 	}
 }
 
+	// checks internal schedule for periodic tasks
+bool IO::getInternal() {
+	if(internal_command.length() != 0) {
+		command = internal_command;
+		interface = internal_interface;
+		internal_command = "";
+		return true;
+	}
+	return false;
+}
+
 	// checks serial input for available command
-bool IO::checkSerial() {
+bool IO::getSerial() {
 	// dump value into IO::command variable
 	return false;
 }
 
 	// checks GSM network for available command
-bool IO::checkGSM() {
+bool IO::getGSM() {
 	// dump value into IO::command variable
 	return false;
 }
 
 	// checks Bluetooth interface for available command
-bool IO::checkBT() {
+bool IO::getBT() {
 	// dump value into IO::command variable
 	return false;
 }
@@ -94,4 +95,15 @@ bool IO::getPeriodic() {
 	// returns parameter segment of v-c-p command
 unsigned long IO::getInterval() {
 	return 0;
+}
+
+	// returns currently stored interface
+char IO::getInterface() {
+	return interface;
+}
+
+	// used by TaskScheduler callbacks; sets the internal command and response interface
+void IO::periodicCommand(char incoming_value, char resp_interface) {
+	internal_command = String(incoming_value) + String("-n");
+	internal_interface = resp_interface;
 }

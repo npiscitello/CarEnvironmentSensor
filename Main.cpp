@@ -17,31 +17,56 @@
 #include <Arduino.h>
 #include "libraries_and_classes/Functions.h"
 #include "libraries_and_classes/IO.h"
+#include "libraries_and_classes/Sensors.h"
 #include "libraries_and_classes/TaskScheduler.h"
 
 	// setup objects
 Functions functions;
 IO inout;
+Sensors sensor;
+Scheduler scheduler;
+Task periodic_task;
 
-void setup(){}
+	// storage and callback for the periodic task
+char task_storage[2];	// [value, interface]
+void periodicCallback() {
+	inout.periodicCommand(task_storage[0], task_storage[1]);
+}
+
+void setup(){
+	periodic_task.setCallback(periodicCallback);
+	scheduler.addTask(periodic_task);
+}
 
 void loop(){
 		// if there's a command available...
-	char available = inout.checkForCommand();
+	char available = inout.getCommand();
 	if(available == 'a') {
 		switch(inout.getValue()) {
 		case 't':
+			sensor.getTemp();
+			inout.sendResponse("temperature");
 			break;
 		case 'c':
+			sensor.getCO();
+			inout.sendResponse("CO");
 			break;
 		case 'l':
+			sensor.getLat();
+			sensor.getLon();
+			inout.sendResponse("location");
 			break;
 		}
 			// if a periodic task is called for
 		if(inout.getPeriodic()) {
-			// set up periodic action based on inout.getInterval
+				// store information about the task
+			task_storage[0] = inout.getValue();
+			task_storage[1] = inout.getInterface();
+				// set up the task timing
+			periodic_task.setInterval(inout.getInterval());
 		}
 	} else if(available == 'b') {
-		inout.sendResponse(false);
+		inout.sendResponse("bad parse");
 	}
+	scheduler.execute();
 }

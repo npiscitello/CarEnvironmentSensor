@@ -34,6 +34,8 @@ Natural Language Functions ("natlang" - "v-c-p command"):
 		'd', "dy", "days"
 		'w', "wk", "weeks"
 		MAX ~7.1 WEEKS (32 bit unsigned long rollover for millis())
+	*** appending "off" adds a "-p-0" to the v-c-p command
+		example "temp off" - "t-p-0" (turn off the periodic temperature updates)
 		
 		
 char codes
