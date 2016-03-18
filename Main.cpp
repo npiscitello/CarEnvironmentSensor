@@ -36,15 +36,12 @@ void loop(){
 			break;
 		case 'l':
 			break;
-		default:
-			// send a bad parse error, but this should never be an invalid value...
-			break;
 		}
 			// if a periodic task is called for
 		if(inout.getPeriodic()) {
 			// set up periodic action based on inout.getInterval
 		}
 	} else if(available == 'b') {
-		// send a bad parse warning
+		inout.sendResponse(false);
 	}
 }

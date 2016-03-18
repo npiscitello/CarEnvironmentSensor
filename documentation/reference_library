@@ -1,7 +1,7 @@
 Textual I/O
 Format: value-command-parameter
 	Values:
-		't' - current temperature in °F/°C ("The current temperature is 50°F / 10°C")
+		't' - current temperature in °F/°C ("The current temperature is 50°F")
 		'c' - current carbon monoxide concentration ("The current CO concentration is 15ppm")
 		'l' - Google Maps link ("Your car is here: maps.google.com/maps?q=LAT+LONG")
 	Commands:
@@ -33,4 +33,15 @@ Natural Language Functions ("natlang" - "v-c-p command"):
 		'h', "hr", "hours"
 		'd', "dy", "days"
 		'w', "wk", "weeks"
-		MAX ~7.1 WEEKS (32 bit unsigned long rollover)
+		MAX ~7.1 WEEKS (32 bit unsigned long rollover for millis())
+		
+		
+char codes
+	- interfaces:
+		's' = serial
+		'g' = gsm
+		'b' = bluetooth
+	- IO::checkForCommand() codes:
+		'a' = command available for retrieval
+		'n' = no command available
+		'b' = bad parse; command received but was not interpreted
