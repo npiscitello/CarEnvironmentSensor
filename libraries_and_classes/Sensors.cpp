@@ -8,21 +8,21 @@
 #include "Sensors.h"
 
 // return temperature in °F
-void Sensors::getTemp() {
+float Sensors::getTemp() {
 
 }
 
 	// return CO concentration in ppm
-void Sensors::getCO() {
+float Sensors::getCO() {
 
 }
 
 	// return latitude in deg
-void Sensors::getLat() {
+float Sensors::getLat() {
 
 }
 
 	// return longitude in deg
-void Sensors::getLon() {
+float Sensors::getLon() {
 
 }

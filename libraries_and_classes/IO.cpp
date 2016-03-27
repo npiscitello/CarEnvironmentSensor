@@ -61,6 +61,11 @@ bool IO::getInternal() {
 	// checks serial input for available command
 bool IO::getSerial() {
 	// dump value into IO::command variable
+	bool ret = false;
+	while(Serial.available()) {
+		command = command + Serial.read();
+		bool ret = true;
+	}
 	return false;
 }
 
