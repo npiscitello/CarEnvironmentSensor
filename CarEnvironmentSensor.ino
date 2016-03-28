@@ -43,6 +43,7 @@ void setup(){
 	scheduler.addTask(periodic_task);
 		// initialize sensors
 	sensor.init(TEMP_PIN, CO_PIN);
+  inout.init();
 }
 
 void loop(){

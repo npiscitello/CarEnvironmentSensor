@@ -7,6 +7,11 @@
 
 #include "IO.h"
 
+  // initialize
+void IO::init() {
+  Serial.begin(115200);
+}
+
 	// check for and loads an available command ('a' on available, 'b' on bad parse, 'n' on no command)
 char IO::getCommand() {
 		// interfaces are checked; order determines priority
@@ -39,6 +44,7 @@ void IO::sendResponse(String response) {
 		// send the message to the appropriate interface (never internal)
 	switch(interface) {
 	case 's':
+    Serial.println(response);
 		break;
 	case 'g':
 		break;
@@ -84,6 +90,17 @@ bool IO::getBT() {
 	// parse a natlang or v-c-p command (returns false on a bad parse)
 bool IO::parseCommand(String command) {
 	// parse a natlang or v-c-p command into IO's fields
+  // currently only v-c-p commands are supported
+  val = command[0];
+  if(val != 't' && val != 'c' && val != 'l') {
+    return false;
+  }
+  if(command[2] == 'p') {
+    periodic = true;
+    // parse interval
+  } else {
+    periodic = false;
+  }
 	return true;
 }
 

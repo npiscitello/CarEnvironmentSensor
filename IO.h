@@ -16,7 +16,7 @@ class IO {
 		String internal_command;	// command holder for periodic tasks
 		char internal_interface;	// stores what interface a periodic task is responding to
 		char interface;				// the source of the current command
-		char value;					// value segment of v-c-p command
+		char val;					  // value segment of v-c-p command
 		bool periodic;				// command segment of v-c-p command
 		unsigned long interval;		// parameter segment of v-c-p command
 		bool parseCommand(String);	// parse a natlang or v-c-p command (returns false on a bad parse)
@@ -26,6 +26,7 @@ class IO {
 		bool getBT();				// checks Bluetooth interface for available command
 
 	public:
+    void init();              // initializes values and functions
 		char getValue();					// returns value segment of v-c-p command
 		bool getPeriodic();					// returns command segment of v-c-p command
 		unsigned long getInterval();		// returns parameter segment of v-c-p command
