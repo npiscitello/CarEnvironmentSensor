@@ -20,6 +20,10 @@
 #include "libraries_and_classes/Sensors.h"
 #include "libraries_and_classes/TaskScheduler.h"
 
+	// define pins
+const int TEMP_PIN=A0
+const int CO_PIN=A1
+
 	// setup objects
 Functions functions;
 IO inout;
@@ -34,8 +38,11 @@ void periodicCallback() {
 }
 
 void setup(){
+		// setup periodic task
 	periodic_task.setCallback(periodicCallback);
 	scheduler.addTask(periodic_task);
+		// initialize sensors
+	sensor.init(TEMP_PIN, CO_PIN);
 }
 
 void loop(){

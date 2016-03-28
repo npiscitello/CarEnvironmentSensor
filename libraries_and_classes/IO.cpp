@@ -66,7 +66,7 @@ bool IO::getSerial() {
 		command = command + Serial.read();
 		bool ret = true;
 	}
-	return false;
+	return ret;
 }
 
 	// checks GSM network for available command
