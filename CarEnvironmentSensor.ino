@@ -48,12 +48,14 @@ void setup(){
 
 void loop(){
 		// if there's a command available...
+  String response;
 	char available = inout.getCommand();
 	if(available == 'a') {
 		switch(inout.getValue()) {
 		case 't':
 			sensor.getTemp();
-			inout.sendResponse("temperature");
+      response = "Current temperature: " + String(sensor.getTemp());
+			inout.sendResponse(response);
 			break;
 		case 'c':
 			sensor.getCO();

@@ -16,6 +16,8 @@ void IO::init() {
 char IO::getCommand() {
 		// interfaces are checked; order determines priority
 		// the receiving interface is recorded for the response
+    // clear command variable
+  command = "";
 	if(getInternal()) {
 		// checkInternal() sets interface
 	}
@@ -44,6 +46,8 @@ void IO::sendResponse(String response) {
 		// send the message to the appropriate interface (never internal)
 	switch(interface) {
 	case 's':
+    Serial.print("Command: ");
+    Serial.println(command);
     Serial.println(response);
 		break;
 	case 'g':
@@ -68,8 +72,8 @@ bool IO::getInternal() {
 bool IO::getSerial() {
 	// dump value into IO::command variable
 	bool ret = false;
-	while(Serial.available() >= 0) {
-		command = command + Serial.read();
+	while(Serial.available() > 0) {
+		command = command + (char)Serial.read();
 		ret = true;
 	}
 	return ret;
@@ -106,17 +110,17 @@ bool IO::parseCommand(String command) {
 
 	// returns value segment of v-c-p command
 char IO::getValue() {
-	return '\0';
+	return val;
 }
 
 	// returns command segment of v-c-p command
 bool IO::getPeriodic() {
-	return false;
+	return periodic;
 }
 
 	// returns parameter segment of v-c-p command
 unsigned long IO::getInterval() {
-	return 0;
+	return interval;
 }
 
 	// returns currently stored interface
