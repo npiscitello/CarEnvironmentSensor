@@ -9,8 +9,7 @@ public:
 	void init(int,int);	// initialize sensors
 	float getTemp();	// return temperature in �F
 	float getCO();		// return CO concentration in ppm
-	float getLat();		// return latitude in deg
-	float getLon();		// return longitude in deg
+	String getLoc();   // return string for printing
 };
 
 #endif /* LIBRARIES_AND_CLASSES_SENSORS_H_ */

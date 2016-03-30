@@ -12,38 +12,27 @@
  *		- board reset every so often (weeks?)
  *		- software timer for periodic functions
  *
+ *  - pinout:
+ *    - D2/D3: Fona comms
+ *    - A0: temp sensor
+ *    - A1: CO sensor (5mV/ppm?) (approx. 1ppm / ADC count - ADC value of 500 means 500ppm)
  */
-
-#include <Arduino.h>
-#include "Functions.h"
+ 
 #include "IO.h"
 #include "Sensors.h"
-#include "TaskScheduler.h"
 
 	// define pins
 const int TEMP_PIN=A0;
 const int CO_PIN=A1;
 
 	// setup objects
-Functions functions;
 IO inout;
 Sensors sensor;
-Scheduler scheduler;
-Task periodic_task;
-
-	// storage and callback for the periodic task
-char task_storage[2];	// [value, interface]
-void periodicCallback() {
-	inout.periodicCommand(task_storage[0], task_storage[1]);
-}
 
 void setup(){
-		// setup periodic task
-	periodic_task.setCallback(periodicCallback);
-	scheduler.addTask(periodic_task);
 		// initialize sensors
-	sensor.init(TEMP_PIN, CO_PIN);
   inout.init();
+	sensor.init(TEMP_PIN, CO_PIN);
 }
 
 void loop(){
@@ -54,29 +43,24 @@ void loop(){
 		switch(inout.getValue()) {
 		case 't':
 			sensor.getTemp();
-      response = "Current temperature: " + String(sensor.getTemp());
+      response = "Current temperature: " + String(sensor.getTemp()) + " *F";
 			inout.sendResponse(response);
 			break;
 		case 'c':
 			sensor.getCO();
-			inout.sendResponse("CO");
+      response = "Current CO concentration: " + String(sensor.getCO()) + " ppm";
+			inout.sendResponse(response);
 			break;
 		case 'l':
-			sensor.getLat();
-			sensor.getLon();
-			inout.sendResponse("location");
+			response = sensor.getLoc();
+			inout.sendResponse(response);
 			break;
 		}
 			// if a periodic task is called for
 		if(inout.getPeriodic()) {
-				// store information about the task
-			task_storage[0] = inout.getValue();
-			task_storage[1] = inout.getInterface();
-				// set up the task timing
-			periodic_task.setInterval(inout.getInterval());
+      // periodic task placeholder
 		}
 	} else if(available == 'b') {
 		inout.sendResponse("bad parse");
 	}
-	scheduler.execute();
 }
