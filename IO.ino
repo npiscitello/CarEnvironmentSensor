@@ -10,7 +10,7 @@
   // initialize
 void IO::init() {
   Serial.begin(115200);
-  Serial.println("Serial comms up!");
+  Serial.println(F("Serial comms up!"));
 }
 
 	// check for and loads an available command ('a' on available, 'b' on bad parse, 'n' on no command)

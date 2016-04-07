@@ -42,12 +42,10 @@ void loop(){
 	if(available == 'a') {
 		switch(inout.getValue()) {
 		case 't':
-			sensor.getTemp();
       response = "Current temperature: " + String(sensor.getTemp()) + " *F";
 			inout.sendResponse(response);
 			break;
 		case 'c':
-			sensor.getCO();
       response = "Current CO concentration: " + String(sensor.getCO()) + " ppm";
 			inout.sendResponse(response);
 			break;
